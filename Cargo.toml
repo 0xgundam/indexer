@@ -1,3 +1,10 @@
 [workspace]
 
-[members]
+members = [
+    "crates/indexer/json-rpc",
+    "crates/interfaces",
+    "crates/primitives",
+    "crates/storage/db",
+    "crates/storage/provider"
+]
+
