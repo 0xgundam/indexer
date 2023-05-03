@@ -7,6 +7,8 @@ use sqlx::{query_as, types::BigDecimal, Error as PgError, Pool, Postgres};
 
 use bigdecimal::ToPrimitive;
 
+use super::header::ParseDBHeaderError;
+
 pub struct PostgresHeadStorage {
     pool: Pool<Postgres>,
 }
@@ -19,43 +21,28 @@ pub struct DBHead {
     timestamp: BigDecimal,
 }
 
-#[derive(Debug, thiserror::Error)]
-pub enum ParseDBHeadError {
-    #[error("Invalid hash")]
-    InvalidHash,
-
-    #[error("Invalid parent hash")]
-    InvalidParentHash,
-
-    #[error("Invalid block number")]
-    InvalidBlockNumber,
-
-    #[error("Invalid timestamp")]
-    InvalidTimestamp,
-}
-
 impl TryFrom<&DBHead> for Head {
-    type Error = ParseDBHeadError;
+    type Error = ParseDBHeaderError;
 
     fn try_from(head: &DBHead) -> Result<Head, Self::Error> {
         let hash = match BlockHash::from_str(&head.hash) {
             Ok(hash) => hash,
-            Err(_) => return Err(ParseDBHeadError::InvalidHash),
+            Err(_) => return Err(ParseDBHeaderError::HashInvalid),
         };
 
         let number = match head.number.to_u64() {
             Some(num) => num,
-            None => return Err(ParseDBHeadError::InvalidBlockNumber),
+            None => return Err(ParseDBHeaderError::BlockNumberInvalid),
         };
 
         let parent_hash = match BlockHash::from_str(&head.parent_hash) {
             Ok(parent_hash) => parent_hash,
-            Err(_) => return Err(ParseDBHeadError::InvalidParentHash),
+            Err(_) => return Err(ParseDBHeaderError::ParentHashInvalid),
         };
 
         let timestamp = match head.timestamp.to_u64() {
             Some(timestamp) => timestamp,
-            None => return Err(ParseDBHeadError::InvalidTimestamp),
+            None => return Err(ParseDBHeaderError::TimestampInvalid),
         };
 
         Ok(Head {

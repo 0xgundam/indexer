@@ -10,7 +10,7 @@ anyhow = "1.0.71"
 async-trait = "0.1.68"
 bigdecimal = { version = "0.3.0", features = ["serde"] }
 dotenv = "0.15.0"
-ethers = "2.0.4"
+ethers = { version = "2.0.4", features = ["abigen"] }
 primitives = { version = "0.1.0", path = "../../crates/primitives" }
 serde = "1.0.160"
 sqlx = { version = "0.6.3", features = ["macros", "migrate", "postgres", "runtime-tokio-native-tls", "bigdecimal"] }

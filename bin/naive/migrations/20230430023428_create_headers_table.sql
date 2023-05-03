@@ -20,13 +20,13 @@ CREATE table headers (
 
     gas_limit NUMERIC NOT NULL,
 
-    extra_data BYTEA NOT NULL,
+    extra_data TEXt NOT NULL,
 
-    logs_bloom BYTEA NOT NULL,
+    logs_bloom TEXt NOT NULL,
 
     timestamp NUMERIC NOT NULL,
 
-    difficulty TEXT NOT NULL,
+    difficulty NUMERIC NOT NULL,
 
     size NUMERIC NOT NULL,
 
