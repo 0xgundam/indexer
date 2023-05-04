@@ -1,14 +1,14 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
+use ethers_core::types::H256;
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+mod header;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
-}
+/// A block hash
+pub type BlockHash = H256;
+
+/// A block number
+pub type BlockNumber = u64;
+
+/// A transaction hash
+pub type TxHash = H256;
+
+pub use header::{Head, Header, InvalidBlockError};
